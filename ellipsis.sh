@@ -6,6 +6,10 @@
 pkg.install() {
     git submodule init
     git submodule update
+
+    # Make sure the vim backup directory exists.
+    mkdir $PKG_PATH/vim/backup
+
     fs.link_files $PKG_PATH
 }
 
