@@ -1,0 +1,7 @@
+#!/bin/sh
+
+if [ -f /usr/bin/clang-format ]; then
+  /usr/bin/clang-format "${@}"
+else
+  clang-format-3.7 "${@}"
+fi
