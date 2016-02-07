@@ -12,7 +12,7 @@ set directory=~/.vim/backup/
 autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
 " Always start on line 1 of git commits
-autocmd FileType gitcommit call setpos('.', [0, 1, 1, 0])
+autocmd FileType gitcommit au! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
 
 " Indentation
 command I2 set ts=2 sw=2 sts=2
