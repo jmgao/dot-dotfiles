@@ -35,10 +35,10 @@ set clipboard=unnamedplus
 inoremap jj <ESC>
 
 " clang-format shortcuts
-noremap jcf :pyf ~/.bin/clang-format.py<CR>
-noremap <F4> :pyf ~/.bin/clang-format.py<CR>
-inoremap jcf <ESC>:pyf ~/.bin/clang-format.py<CR>i
-inoremap <F4> <ESC>:pyf ~/.bin/clang-format.py<CR>i
+noremap jcf :Autoformat<CR>
+noremap <F4> :Autoformat<CR>
+inoremap jcf <ESC>:Autoformat<CR>i
+inoremap <F4> <ESC>:Autoformat<CR>i
 
 " Buffer navigation
 nnoremap <F11> :prev<CR>
