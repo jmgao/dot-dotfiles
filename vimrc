@@ -106,3 +106,7 @@ function! LightLineFilename()
        \ ('' != expand('%:t') ? expand('%:t') : '[No Name]') .
        \ ('' != LightLineModified() ? ' ' . LightLineModified() : '')
 endfunction
+
+let g:autocwd_patternwd_pairs = [
+  \['*', '*REPO*'],
+\]
