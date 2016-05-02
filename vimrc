@@ -18,10 +18,10 @@ autocmd FileType gitcommit au! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1
 command I2 set ts=2 sw=2 sts=2
 command I4 set ts=4 sw=4 sts=4
 command I8 set ts=8 sw=8 sts=8
+
+I2
+
 set expandtab
-set tabstop=2
-set softtabstop=2
-set shiftwidth=2
 set nomodeline
 
 " 100 column gutter
@@ -110,3 +110,5 @@ endfunction
 let g:autocwd_patternwd_pairs = [
   \['*', '*REPO*'],
 \]
+
+nnoremap gd :YcmCompleter GoTo<CR>
