@@ -106,16 +106,6 @@ function use_java8() {
   setup_jdk /usr/lib/jvm/java-8-openjdk-amd64
 }
 
-[ -d /usr/lib/jvm/java-8-openjdk-amd64 ] && use_java8
-
-export USE_NINJA=true
-alias n='m USE_GOMA=true -j1024'
-alias nn='mm USE_GOMA=true -j1024'
-alias nna='mma USE_GOMA=true -j1024'
-
-function adb_test.exe() {
-  wine $ANDROID_HOST_OUT/../windows-x86/bin/adb_test.exe "$@"
-}
 
 function _backport() {
   local dry=$1
@@ -152,3 +142,14 @@ function backport() {
 function backport_dry() {
   _backport true $1
 }
+
+[ -d /usr/lib/jvm/java-8-openjdk-amd64 ] && use_java8
+if [ -d $HOME/.android/sdk ]; then
+  export ANDROID_HOME="$HOME/.android/sdk"
+  PATH="$PATH:$ANDROID_HOME/tools"
+fi
+
+export USE_NINJA=true
+alias n='m USE_GOMA=true -j1024'
+alias nn='mm USE_GOMA=true -j1024'
+alias nna='mma USE_GOMA=true -j1024'

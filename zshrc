@@ -68,11 +68,8 @@ alias pbpaste='xclip -selection clipboard -o'
 
 alias mosh='mosh --ssh="ssh -o ProxyUseFdpass=no -o UseProxyIf=true -o GSSAPITrustDns=no"'
 
-export ANDROID_HOME="$HOME/.sdk"
-
 PATH="$PATH:$HOME/.bin"
 PATH="$PATH:$HOME/.local/bin"
-PATH="$PATH:$ANDROID_HOME/tools"
 
 # Rust environment
 [ -d $HOME/.rustsrc/1.8.0/src ] && export RUST_SRC_PATH=$HOME/.rustsrc/1.8.0/src
