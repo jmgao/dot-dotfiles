@@ -106,9 +106,8 @@ function use_java8() {
   setup_jdk /usr/lib/jvm/java-8-openjdk-amd64
 }
 
-use_java8
+[ -d /usr/lib/jvm/java-8-openjdk-amd64 ] && use_java8
 
-export EXPERIMENTAL_USE_JAVA8=true
 export USE_NINJA=true
 alias n='m USE_GOMA=true -j1024'
 alias nn='mm USE_GOMA=true -j1024'
