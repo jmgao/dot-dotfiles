@@ -112,3 +112,10 @@ let g:autocwd_patternwd_pairs = [
 \]
 
 nnoremap gd :YcmCompleter GoTo<CR>
+
+" 2sp for lyfe
+let g:rust_recommended_style = 0
+
+set hidden
+let g:racer_cmd = "/home/josh/.multirust/toolchains/stable/cargo/bin/racer"
+let $RUST_SRC_PATH="/home/josh/.rustsrc/1.8.0/src/"

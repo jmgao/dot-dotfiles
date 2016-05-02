@@ -74,6 +74,12 @@ PATH="$PATH:$HOME/.bin"
 PATH="$PATH:$HOME/.local/bin"
 PATH="$PATH:$ANDROID_HOME/tools"
 
+# Rust environment
+[ -d $HOME/.rustsrc/1.8.0/src ] && export RUST_SRC_PATH=$HOME/.rustsrc/1.8.0/src
+if [ -d $HOME/.multirust/toolchains/stable/cargo/bin ]; then
+  PATH="$PATH:$HOME/.multirust/toolchains/stable/cargo/bin"
+fi
+
 setopt no_share_history
 unsetopt cdablevars
 unsetopt autopushd
