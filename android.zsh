@@ -11,11 +11,11 @@ function __android_switch() {
 }
 
 function aosp() {
-  __android_switch ~/android/aosp
+  __android_switch /android/aosp
 }
 
 function internal() {
-  __android_switch ~/android/internal
+  __android_switch /android/nyc-dev
 }
 
 function __generic_device() {
@@ -80,7 +80,7 @@ function {
     else
       gen_aliases $PRODUCT aosp $SERIAL
       gen_aliases $PRODUCT internal $SERIAL
-      alias "${PRODUCT}"="${PRODUCT}_aosp"
+      alias "${PRODUCT}"="${PRODUCT}_internal"
     fi
   done
 }
