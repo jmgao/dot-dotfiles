@@ -15,41 +15,49 @@ function aosp() {
 }
 
 function internal() {
+  __android_switch /android/internal
+}
+
+function nyc() {
   __android_switch /android/nyc-dev
 }
+
 
 function __generic_device() {
   local REPO=$1
   local PRODUCT=$2
   local TYPE=$3
   local SERIAL=$4
-  if [[ "$REPO" == "aosp" ]]; then
-    aosp
-    lunch "aosp_${PRODUCT}-${TYPE}"
-  else
-    internal
-    lunch "${PRODUCT}-${TYPE}"
-  fi
 
+  $REPO
+
+  lunch "${PRODUCT}-${TYPE}"
   export ANDROID_SERIAL=$SERIAL
 }
 
 function {
   typeset -A devices
-  typeset -A only
+  typeset -A aosp
+  local current="nyc"
   devices[shamu]="ZX1G22LGPK"
 
   devices[flounder]="HT46CJT00073"
-  only[flounder]="aosp"
+  aosp[flounder]=true
 
   devices[volantis]="HT46CJT00073"
-  only[volantis]="internal"
+  aosp[volantis]=false
 
   devices[seed]="1764c48e"
-  only[seed]="internal"
+  aosp[seed]=false
 
   devices[sprout]="6I4804CGACA406A"
-  only[sprout]="internal"
+  aosp[sprout]=false
+
+  devices[ryu]="5810000432"
+  aosp[ryu]=false
+
+  devices[dragon]="5810000432"
+  aosp[dragon]=true
 
   devices[angler]="84B7N15818000564"
   devices[bullhead]="00ade0ddf4892033"
@@ -58,29 +66,43 @@ function {
 
   function gen_aliases() {
     local PRODUCT=$1
-    local TYPE=$2
-    local SERIAL=$3
-    alias "${PRODUCT}_${TYPE}_user"="__generic_device ${TYPE} ${PRODUCT} user ${SERIAL}"
-    alias "${PRODUCT}_${TYPE}_userdebug"="__generic_device ${TYPE} ${PRODUCT} userdebug ${SERIAL}"
-    alias "${PRODUCT}_${TYPE}_eng"="__generic_device ${TYPE} ${PRODUCT} eng ${SERIAL}"
-    alias "${PRODUCT}_${TYPE}"="${PRODUCT}_${TYPE}_eng"
+    local REPO=$2
+    local AOSP=$3
+    local SERIAL=$4
+    local PRODUCT_PREFIX="aosp_"
+
+    if [[ $AOSP == false ]]; then
+      PRODUCT_PREFIX=""
+    fi
+
+    alias "${PRODUCT}_${REPO}_user"="__generic_device ${REPO} ${PRODUCT_PREFIX}${PRODUCT} user ${SERIAL}"
+    alias "${PRODUCT}_${REPO}_userdebug"="__generic_device ${REPO} ${PRODUCT_PREFIX}${PRODUCT} userdebug ${SERIAL}"
+    alias "${PRODUCT}_${REPO}_eng"="__generic_device ${REPO} ${PRODUCT_PREFIX}${PRODUCT} eng ${SERIAL}"
+    alias "${PRODUCT}_${REPO}"="${PRODUCT}_${REPO}_eng"
   }
 
   local PRODUCT
   for PRODUCT in "${(@k)devices}"; do
     local SERIAL=$devices[$PRODUCT]
-    local ONLY=$only[$PRODUCT]
+    local AOSP=$aosp[$PRODUCT]
 
-    if [ "$ONLY" ]; then
-      gen_aliases $PRODUCT $ONLY $SERIAL
-      alias "${PRODUCT}"="${PRODUCT}_${ONLY}"
-      alias "${PRODUCT}_user"="${PRODUCT}_${ONLY}_user"
-      alias "${PRODUCT}_userdebug"="${PRODUCT}_${ONLY}_userdebug"
-      alias "${PRODUCT}_eng"="${PRODUCT}_${ONLY}_eng"
+    if [ -z "$AOSP" ]; then
+      # $aosp[$PRODUCT] unset, generate everything.
+      gen_aliases $PRODUCT aosp true $SERIAL
+      gen_aliases $PRODUCT internal false $SERIAL
+      gen_aliases $PRODUCT nyc false $SERIAL
+      alias "${PRODUCT}"="${PRODUCT}_${current}"
+      alias "${PRODUCT}_user"="${PRODUCT}_aosp_user"
+      alias "${PRODUCT}_userdebug"="${PRODUCT}_aosp_userdebug"
+      alias "${PRODUCT}_eng"="${PRODUCT}_aosp_eng"
     else
-      gen_aliases $PRODUCT aosp $SERIAL
-      gen_aliases $PRODUCT internal $SERIAL
-      alias "${PRODUCT}"="${PRODUCT}_internal"
+      gen_aliases $PRODUCT aosp $AOSP $SERIAL
+      gen_aliases $PRODUCT internal $AOSP $SERIAL
+      gen_aliases $PRODUCT nyc $AOSP $SERIAL
+      alias "${PRODUCT}"="${PRODUCT}_${current}"
+      alias "${PRODUCT}_user"="${PRODUCT}_aosp_user"
+      alias "${PRODUCT}_userdebug"="${PRODUCT}_aosp_userdebug"
+      alias "${PRODUCT}_eng"="${PRODUCT}_aosp_eng"
     fi
   done
 }
