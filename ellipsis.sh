@@ -5,7 +5,7 @@
 # The following hooks can be defined to customize behavior of your package:
 pkg.install() {
     git submodule init
-    git submodule update
+    git submodule update --recursive
 
     # Make sure the vim backup directory exists.
     mkdir $PKG_PATH/vim/backup
