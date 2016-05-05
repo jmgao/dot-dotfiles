@@ -28,6 +28,9 @@ set nomodeline
 highlight ColorColumn ctermbg=darkgrey guibg=#2c2d27
 set colorcolumn=101
 
+" Speed up vim-gitgutter updates
+set updatetime=100
+
 " Use the X clipboard
 set clipboard=unnamedplus
 
@@ -39,6 +42,8 @@ noremap jcf :Autoformat<CR>
 noremap <F4> :Autoformat<CR>
 inoremap jcf <ESC>:Autoformat<CR>i
 inoremap <F4> <ESC>:Autoformat<CR>i
+
+noremap jgb :Gblame<CR>
 
 " Buffer navigation
 nnoremap <F11> :prev<CR>
