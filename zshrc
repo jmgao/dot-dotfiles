@@ -33,6 +33,7 @@ fi
 
 PATH="$PATH:$HOME/.bin"
 PATH="$PATH:$HOME/.local/bin"
+PATH="$PATH:$HOME/.ellipsis/bin"
 
 # Rust environment
 [ -d $HOME/.rustsrc/1.8.0/src ] && export RUST_SRC_PATH=$HOME/.rustsrc/1.8.0/src
