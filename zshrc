@@ -68,6 +68,10 @@ alias pbpaste='xclip -selection clipboard -o'
 
 alias mosh='mosh --ssh="ssh -o ProxyUseFdpass=no -o UseProxyIf=true -o GSSAPITrustDns=no"'
 
+if [[ "$TERM" == "xterm" ]]; then
+  TERM=xterm-256color
+fi
+
 PATH="$PATH:$HOME/.bin"
 PATH="$PATH:$HOME/.local/bin"
 
