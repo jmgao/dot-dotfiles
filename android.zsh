@@ -8,20 +8,34 @@ function __android_switch() {
   if [[ "$LAST_DIR" == "$1"/* ]]; then
     cd "$LAST_DIR"
   fi
+
+  # Switch to the correct java version using the passed in function.
+  $2; rehash
 }
 
 function aosp() {
-  __android_switch /android/aosp
+  __android_switch /android/aosp use_java8
 }
 
 function internal() {
-  __android_switch /android/internal
+  __android_switch /android/internal use_java8
 }
 
 function nyc() {
-  __android_switch /android/nyc-dev
+  __android_switch /android/nyc-dev use_java8
 }
 
+function mnc() {
+  __android_switch /android/mnc-dev use_java7
+}
+
+function lmp() {
+  __android_switch /android/lmp-dev use_java7
+}
+
+function klp() {
+  __android_switch /android/klp-dev use_java6
+}
 
 function __generic_device() {
   local REPO=$1
@@ -59,12 +73,17 @@ function {
   devices[dragon]="5810000432"
   aosp[dragon]=true
 
-  devices[angler]="84B7N15818000564"
+  devices[angler]="84B5T15915000293"
   devices[bullhead]="00ade0ddf4892033"
   devices[flo]="06d25a85"
   devices[hammerhead]="03baf040437e94f1"
 
-  function gen_aliases() {
+  devices[aosp_x86]=""
+  devices[aosp_x86_64]=""
+  devices[aosp_arm]=""
+  devices[aosp_arm64]=""
+
+  function gen_alias() {
     local PRODUCT=$1
     local REPO=$2
     local AOSP=$3
@@ -75,10 +94,27 @@ function {
       PRODUCT_PREFIX=""
     fi
 
-    alias "${PRODUCT}_${REPO}_user"="__generic_device ${REPO} ${PRODUCT_PREFIX}${PRODUCT} user ${SERIAL}"
-    alias "${PRODUCT}_${REPO}_userdebug"="__generic_device ${REPO} ${PRODUCT_PREFIX}${PRODUCT} userdebug ${SERIAL}"
-    alias "${PRODUCT}_${REPO}_eng"="__generic_device ${REPO} ${PRODUCT_PREFIX}${PRODUCT} eng ${SERIAL}"
-    alias "${PRODUCT}_${REPO}"="${PRODUCT}_${REPO}_eng"
+    if [[ $PRODUCT == aosp_* ]]; then
+      # Special case for emulators, so we don't have aosp_aosp_foo.
+      PRODUCT_PREFIX=""
+    fi
+
+    alias "${PRODUCT}-${REPO}-user"="__generic_device ${REPO} ${PRODUCT_PREFIX}${PRODUCT} user ${SERIAL}"
+    alias "${PRODUCT}-${REPO}-userdebug"="__generic_device ${REPO} ${PRODUCT_PREFIX}${PRODUCT} userdebug ${SERIAL}"
+    alias "${PRODUCT}-${REPO}-eng"="__generic_device ${REPO} ${PRODUCT_PREFIX}${PRODUCT} eng ${SERIAL}"
+    alias "${PRODUCT}-${REPO}"="${PRODUCT}-${REPO}-eng"
+  }
+
+  function gen_aliases() {
+    local PRODUCT=$1
+    local AOSP=$2
+    local SERIAL=$3
+
+    gen_alias $PRODUCT nyc-mr1 $AOSP $SERIAL
+    gen_alias $PRODUCT nyc $AOSP $SERIAL
+    gen_alias $PRODUCT mnc $AOSP $SERIAL
+    gen_alias $PRODUCT lmp $AOSP $SERIAL
+    gen_alias $PRODUCT klp $AOSP $SERIAL
   }
 
   local PRODUCT
@@ -86,23 +122,29 @@ function {
     local SERIAL=$devices[$PRODUCT]
     local AOSP=$aosp[$PRODUCT]
 
-    if [ -z "$AOSP" ]; then
-      # $aosp[$PRODUCT] unset, generate everything.
-      gen_aliases $PRODUCT aosp true $SERIAL
-      gen_aliases $PRODUCT internal false $SERIAL
-      gen_aliases $PRODUCT nyc false $SERIAL
-      alias "${PRODUCT}"="${PRODUCT}_${current}"
-      alias "${PRODUCT}_user"="${PRODUCT}_aosp_user"
-      alias "${PRODUCT}_userdebug"="${PRODUCT}_aosp_userdebug"
-      alias "${PRODUCT}_eng"="${PRODUCT}_aosp_eng"
+    if [[ "$AOSP" == true ]]; then
+      gen_alias $PRODUCT aosp $AOSP $SERIAL
+      gen_aliases $PRODUCT $AOSP $SERIAL
+      alias "${PRODUCT}"="${PRODUCT}-${current}"
+      alias "${PRODUCT}-user"="${PRODUCT}-${current}-user"
+      alias "${PRODUCT}-userdebug"="${PRODUCT}-${current}-userdebug"
+      alias "${PRODUCT}-eng"="${PRODUCT}-${current}-eng"
+    elif [[ "$AOSP" == false ]]; then
+      gen_alias $PRODUCT internal $AOSP $SERIAL
+      gen_aliases $PRODUCT $AOSP $SERIAL
+      alias "${PRODUCT}"="${PRODUCT}-${current}"
+      alias "${PRODUCT}-user"="${PRODUCT}-${current}-user"
+      alias "${PRODUCT}-userdebug"="${PRODUCT}-${current}-userdebug"
+      alias "${PRODUCT}-eng"="${PRODUCT}-${current}-eng"
     else
-      gen_aliases $PRODUCT aosp $AOSP $SERIAL
-      gen_aliases $PRODUCT internal $AOSP $SERIAL
-      gen_aliases $PRODUCT nyc $AOSP $SERIAL
-      alias "${PRODUCT}"="${PRODUCT}_${current}"
-      alias "${PRODUCT}_user"="${PRODUCT}_aosp_user"
-      alias "${PRODUCT}_userdebug"="${PRODUCT}_aosp_userdebug"
-      alias "${PRODUCT}_eng"="${PRODUCT}_aosp_eng"
+      # $aosp[$PRODUCT] unset, generate everything.
+      gen_alias $PRODUCT aosp true $SERIAL
+      gen_alias $PRODUCT internal false $SERIAL
+      gen_aliases $PRODUCT false $SERIAL
+      alias "${PRODUCT}"="${PRODUCT}-${current}"
+      alias "${PRODUCT}-user"="${PRODUCT}-${current}-user"
+      alias "${PRODUCT}-userdebug"="${PRODUCT}-${current}-userdebug"
+      alias "${PRODUCT}-eng"="${PRODUCT}-${current}-eng"
     fi
   done
 }
@@ -136,7 +178,7 @@ function _backport() {
     local_path="."
   fi
   for sha in `git cherry HEAD goog/mirror-aosp-master | grep '^+' | cut -d' ' -f2`; do
-    if [[ -d $local_path ]]; then
+    if [[ -e $local_path ]]; then
       local color_reset="\x1b[0m"
       local color_bold="\x1b[1m"
       local color_red="\x1b[31;1m"
@@ -171,7 +213,6 @@ if [ -d $HOME/.android/sdk ]; then
   PATH="$PATH:$ANDROID_HOME/tools"
 fi
 
-export USE_NINJA=true
 alias n='m USE_GOMA=true -j1024'
 alias nn='mm USE_GOMA=true -j1024'
 alias nna='mma USE_GOMA=true -j1024'
