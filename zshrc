@@ -37,8 +37,8 @@ PATH="$PATH:$HOME/.ellipsis/bin"
 
 # Rust environment
 [ -d $HOME/.rustsrc/1.8.0/src ] && export RUST_SRC_PATH=$HOME/.rustsrc/1.8.0/src
-if [ -d $HOME/.multirust/toolchains/stable/cargo/bin ]; then
-  PATH="$PATH:$HOME/.multirust/toolchains/stable/cargo/bin"
+if [ -d $HOME/.cargo/bin ]; then
+  PATH="$PATH:$HOME/.cargo/bin"
 fi
 
 # Powerline
@@ -47,3 +47,4 @@ source ~/.powerline/powerline/bindings/zsh/powerline.zsh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.android.zsh ] && source ~/.android.zsh
+[ -f ~/.cargo/env ] && source ~/.cargo/env
