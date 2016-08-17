@@ -6,7 +6,7 @@ set nocompatible
 set number
 set hlsearch
 
-set directory=~/.vim/backup/
+set directory=~/.vim/backup//
 
 " Jump to last position when reopening file
 autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
@@ -54,7 +54,10 @@ function AutoformatBind()
   endif
 endfunction
 
-autocmd BufNewFile,BufRead * call AutoformatBind()
+autocmd BufWritePost,BufNewFile,BufRead * call AutoformatBind()
+
+" Strip trailing whitespace on save
+autocmd BufWritePre * %s/\s\+$//e
 
 " Fugitive keybinds
 noremap jgb :Gblame<CR>
@@ -219,3 +222,15 @@ let g:rust_recommended_style = 0
 set hidden
 let g:racer_cmd = "/home/josh/.multirust/toolchains/stable/cargo/bin/racer"
 let $RUST_SRC_PATH="/home/josh/.rustsrc/1.8.0/src/"
+
+let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
+let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_autoclose_preview_window_after_insertion = 1
+let g:ycm_complete_in_comments_and_strings = 1
+let g:ycm_auto_trigger = 1
+let g:ycm_always_populate_location_list = 1
+
+noremap <F5> :YcmForceCompileAndDiagnostics<CR><CR>
+inoremap <F5> <ESC>:YcmForceCompileAndDiagnostics<CR><CR>i
+
+let g:linuxsty_patterns = [ "/linux/", "/kernel/" ]
