@@ -226,9 +226,11 @@ let $RUST_SRC_PATH="/home/josh/.rustsrc/1.8.0/src/"
 let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_autoclose_preview_window_after_insertion = 1
-let g:ycm_complete_in_comments_and_strings = 1
 let g:ycm_auto_trigger = 1
 let g:ycm_always_populate_location_list = 1
+let g:ycm_min_num_of_chars_for_completion = 4
+let g:ycm_complete_in_comments = 0
+let g:ycm_complete_in_strings = 0
 
 noremap <F5> :YcmForceCompileAndDiagnostics<CR><CR>
 inoremap <F5> <ESC>:YcmForceCompileAndDiagnostics<CR><CR>i
