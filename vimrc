@@ -5,6 +5,7 @@ filetype plugin indent on
 set nocompatible
 set number
 set hlsearch
+set backspace=indent,eol,start
 
 set directory=~/.vim/backup//
 
@@ -19,6 +20,9 @@ command I2 set ts=2 sw=2 sts=2
 command I4 set ts=4 sw=4 sts=4
 command I8 set ts=8 sw=8 sts=8
 
+" Blueprint style is 4 space indentation.
+autocmd BufNewFile,BufRead *.bp I4
+
 I2
 
 set expandtab
@@ -29,7 +33,7 @@ highlight ColorColumn ctermbg=darkgrey guibg=#2c2d27
 set colorcolumn=101
 
 " Speed up vim-gitgutter updates
-set updatetime=100
+set updatetime=1000
 
 " Use the X clipboard
 set clipboard=unnamedplus
