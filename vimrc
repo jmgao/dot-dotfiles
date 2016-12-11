@@ -240,3 +240,9 @@ noremap <F5> :YcmForceCompileAndDiagnostics<CR><CR>
 inoremap <F5> <ESC>:YcmForceCompileAndDiagnostics<CR><CR>i
 
 let g:linuxsty_patterns = [ "/linux/", "/kernel/" ]
+
+" Ctrl-A/Ctrl-E
+map <C-A> ^
+map! <C-A> <ESC>I
+map <C-E> $
+map! <C-E> <ESC>A
