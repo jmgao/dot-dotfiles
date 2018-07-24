@@ -39,6 +39,7 @@ flags = [
     '-Wextra',
     '-Wno-long-long',
     '-Wno-variadic-macros',
+    '-Wthread-safety',
     '-fno-exceptions',
     '-fno-rtti',
     '-fno-strict-aliasing',
@@ -46,19 +47,12 @@ flags = [
     '-fpic',
     '-DNDEBUG',
     '-DANDROID',
-    #'-march=armv7-a',
-    '-DUSE_CLANG_COMPLETER',
-    # THIS IS IMPORTANT! Without a "-std=<something>" flag, clang won't know which
-    # language to use when compiling headers. So it will guess. Badly. So C++
-    # headers will be compiled as C headers. You don't want that so ALWAYS specify
-    # a "-std=<something>".
-    # For a C project, you would set this to something like 'c99' instead of
-    # 'c++11'.
-    '-std=c++14',
-    # ...and the same thing goes for the magic -x option which specifies the
-    # language that the files to be compiled are written in. This is mostly
-    # relevant for c++ headers.
-    # For a C project, you would set this to 'c' instead of 'c++'.
+    '-D__ANDROID__=1',
+    '-D__BIONIC__=1',
+    '-DADB_HOST=0',
+    '-D_LIBCPP_ENABLE_THREAD_SAFETY_ANNOTATIONS',
+    '-target aarch64-linux-android'
+    '-std=gnu++1z',
     '-x', 'c++',
     '-I', '.',
 
@@ -67,17 +61,33 @@ flags = [
 ]
 
 includedirs = [
-    'bionic/libc/arch-arm/include',
+    'bionic/debuggerd_client/include',
+    'bionic/libc/arch-x86_64/include',
     'bionic/libc/include',
-    'bionic/libc/kernel/common',
-    'bionic/libc/kernel/arch-arm',
-    'bionic/libstdc++/include',
-    'bionic/libstdc++/include',
+    'bionic/libc/kernel/android/uapi',
+    'bionic/libc/kernel/uapi',
+    'bionic/libc/kernel/uapi/asm-x86',
     'bionic/libm/include',
     'bionic/libm/include/arm',
     'bionic/libthread_db/include',
     'external/libcxx/include',
+    'external/clang/include',
+    'external/clang/lib/Headers',
+    'external/llvm/include',
+    'external/google-benchmark/include',
+    'external/googletest/googletest/include',
+    'external/libevent/include',
+    'external/libusb/include',
     'system/core/include',
+    'system/core/adb',
+    'system/core/adb/libadb/include',
+    'system/core/base/include',
+    'system/core/libfdsan/include',
+    'system/core/libfdsan/standalone/include',
+    'system/core/libprocinfo/include',
+    'system/core/debuggerd/include',
+    'system/core/libbacktrace/include',
+    'system/core/libunwindstack/include',
     'hardware/libhardware/include',
     'hardware/libhardware_legacy/include',
     'hardware/ril/include',
@@ -86,7 +96,10 @@ includedirs = [
     'frameworks/native/opengl/include',
     'frameworks/av/include',
     'frameworks/base/include',
-    'kernel/include/uapi',
+    'bionic/libc/kernel/arch-arm',
+    'bionic/libc/kernel/common',
+    'bionic/libc/kernel/uapi',
+    'bionic/libc/kernel/uapi/asm-arm',
 ]
 
 
