@@ -45,6 +45,9 @@ fi
 PYTHONPATH=~/.powerline ~/.powerline/scripts/powerline-daemon -q
 source ~/.powerline/powerline/bindings/zsh/powerline.zsh
 
+# Don't complete user directories.
+zstyle ':completion:*' users `whoami` root
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.android.zsh ] && source ~/.android.zsh
 [ -f ~/.cargo/env ] && source ~/.cargo/env
