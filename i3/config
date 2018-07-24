@@ -122,3 +122,6 @@ exec --no-startup-id unity-settings-daemon &
 exec --no-startup-id nm-applet
 
 exec --no-startup-id redshift -l 37.4284:-122.0724 &
+
+exec --no-startup-id setxkbmap -option caps:none
+exec --no-startup-id xmodmap -e "keycode 66 = Escape NoSymbol Escape"
