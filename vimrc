@@ -38,6 +38,9 @@ set updatetime=1000
 " Use the X clipboard
 set clipboard=unnamedplus
 
+" Don't clear the clipboard on exit.
+autocmd VimLeave * call system("xsel -ib", getreg('+'))
+
 " Alternative to escape
 inoremap jj <ESC>
 
@@ -74,6 +77,12 @@ nnoremap <F11> :prev<CR>
 inoremap <F11> <ESC>:prev<CR>i
 nnoremap <F12> :next<CR>
 inoremap <F12> <ESC>:next<CR>i
+
+" Ctrl-A/Ctrl-E
+map <C-A> ^
+map! <C-A> <ESC>I
+map <C-E> $
+map! <C-E> <ESC>A
 
 " Strip trailing whitespace
 nnoremap <silent> <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
@@ -227,8 +236,6 @@ nnoremap gd :YcmCompleter GoTo<CR>
 let g:rust_recommended_style = 0
 
 set hidden
-let g:racer_cmd = "/home/josh/.multirust/toolchains/stable/cargo/bin/racer"
-let $RUST_SRC_PATH="/home/josh/.rustsrc/1.8.0/src/"
 
 let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 let g:ycm_autoclose_preview_window_after_completion = 1
@@ -249,3 +256,5 @@ map <C-A> ^
 map! <C-A> <ESC>I
 map <C-E> $
 map! <C-E> <ESC>A
+
+colorscheme default
