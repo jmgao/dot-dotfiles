@@ -14,27 +14,15 @@ function __android_switch() {
 }
 
 function aosp() {
-  __android_switch /android/aosp use_java8
+  __android_switch /android/aosp true
 }
 
 function internal() {
-  __android_switch /android/internal use_java8
+  __android_switch /android/internal true
 }
 
-function nyc() {
-  __android_switch /android/nyc-dev use_java8
-}
-
-function mnc() {
-  __android_switch /android/mnc-dev use_java7
-}
-
-function lmp() {
-  __android_switch /android/lmp-dev use_java7
-}
-
-function klp() {
-  __android_switch /android/klp-dev use_java6
+function pi() {
+  __android_switch /android/pi-dev true
 }
 
 function __generic_device() {
@@ -45,38 +33,19 @@ function __generic_device() {
 
   $REPO
 
-  lunch "${PRODUCT}-${TYPE}"
   export ANDROID_SERIAL=$SERIAL
+  lunch "${PRODUCT}-${TYPE}"
 }
 
 function {
   typeset -A devices
   typeset -A aosp
-  local current="nyc"
-  devices[shamu]="ZX1G22LGPK"
+  local current="internal"
 
-  devices[flounder]="HT46CJT00073"
-  aosp[flounder]=true
-
-  devices[volantis]="HT46CJT00073"
-  aosp[volantis]=false
-
-  devices[seed]="1764c48e"
-  aosp[seed]=false
-
-  devices[sprout]="6I4804CGACA406A"
-  aosp[sprout]=false
-
-  devices[ryu]="5810000432"
-  aosp[ryu]=false
-
-  devices[dragon]="5810000432"
-  aosp[dragon]=true
-
-  devices[angler]="84B5T15915000293"
-  devices[bullhead]="00ade0ddf4892033"
-  devices[flo]="06d25a85"
-  devices[hammerhead]="03baf040437e94f1"
+  devices[sailfish]="HT67E0300016"
+  devices[taimen]="704KPTM000281"
+  devices[walleye]="HT75P1A00083"
+  devices[hikey960]="hikey960"
 
   devices[aosp_x86]=""
   devices[aosp_x86_64]=""
@@ -95,14 +64,17 @@ function {
     fi
 
     if [[ $PRODUCT == aosp_* ]]; then
-      # Special case for emulators, so we don't have aosp_aosp_foo.
+      PRODUCT_PREFIX=""
+    fi
+
+    if [[ $PRODUCT == hikey960 ]]; then
       PRODUCT_PREFIX=""
     fi
 
     alias "${PRODUCT}-${REPO}-user"="__generic_device ${REPO} ${PRODUCT_PREFIX}${PRODUCT} user ${SERIAL}"
     alias "${PRODUCT}-${REPO}-userdebug"="__generic_device ${REPO} ${PRODUCT_PREFIX}${PRODUCT} userdebug ${SERIAL}"
     alias "${PRODUCT}-${REPO}-eng"="__generic_device ${REPO} ${PRODUCT_PREFIX}${PRODUCT} eng ${SERIAL}"
-    alias "${PRODUCT}-${REPO}"="${PRODUCT}-${REPO}-eng"
+    alias "${PRODUCT}-${REPO}"="${PRODUCT}-${REPO}-userdebug"
   }
 
   function gen_aliases() {
@@ -110,11 +82,7 @@ function {
     local AOSP=$2
     local SERIAL=$3
 
-    gen_alias $PRODUCT nyc-mr1 $AOSP $SERIAL
-    gen_alias $PRODUCT nyc $AOSP $SERIAL
-    gen_alias $PRODUCT mnc $AOSP $SERIAL
-    gen_alias $PRODUCT lmp $AOSP $SERIAL
-    gen_alias $PRODUCT klp $AOSP $SERIAL
+    gen_alias $PRODUCT pi $AOSP $SERIAL
   }
 
   local PRODUCT
@@ -149,6 +117,10 @@ function {
   done
 }
 
+function ms() {
+  m installed-file-list "${@}"
+}
+
 function setup_jdk() {
   # Remove the current JDK from PATH
   if [ -n "$JAVA_HOME" ] ; then
@@ -158,26 +130,15 @@ function setup_jdk() {
   export PATH=$JAVA_HOME/bin:$PATH
 }
 
-function use_java6() {
-  setup_jdk /usr/lib/jvm/jdk1.6.0_45
-}
-
-function use_java7() {
-  setup_jdk /usr/lib/jvm/java-7-openjdk-amd64
-}
-
-function use_java8() {
-  setup_jdk /usr/lib/jvm/java-8-openjdk-amd64
-}
-
-
-function _backport() {
+function _cherry() {
   local dry=$1
-  local local_path=$2
+  local src_branch=$2
+  local local_path=$3
   if [[ -z "$local_path" ]]; then
     local_path="."
   fi
-  for sha in `git cherry HEAD goog/mirror-aosp-master | grep '^+' | cut -d' ' -f2`; do
+  echo "git cherry HEAD $src_branch | grep '^+' | cut -d' ' -f2"
+  for sha in `git cherry HEAD $src_branch | grep '^+' | cut -d' ' -f2`; do
     if [[ -e $local_path ]]; then
       local color_reset="\x1b[0m"
       local color_bold="\x1b[1m"
@@ -199,20 +160,24 @@ function _backport() {
   done
 }
 
-function backport() {
-  _backport false $1
+function cherry() {
+  _cherry false $@
 }
 
-function backport_dry() {
-  _backport true $1
+function cherry_dry() {
+  _cherry true $@
 }
 
-[ -d /usr/lib/jvm/java-8-openjdk-amd64 ] && use_java8
 if [ -d $HOME/.android/sdk ]; then
   export ANDROID_HOME="$HOME/.android/sdk"
   PATH="$PATH:$ANDROID_HOME/tools"
 fi
 
-alias n='m USE_GOMA=true -j1024'
-alias nn='mm USE_GOMA=true -j1024'
-alias nna='mma USE_GOMA=true -j1024'
+export GOMA_DIR=$HOME/.goma
+export USE_GOMA=true
+
+alias lcf='adb logcat -c; adb logcat -v color | egrep --line-buffered -v "(qmi_client|fpce_|slim_daemon|sensorservice|NuPlayer|AtCmdFwd|MediaPlayer)"'
+
+alias lock_max="adb shell 'for x in /sys/devices/system/cpu/cpu?/cpufreq; do echo userspace > \$x/scaling_governor; cat \$x/scaling_max_freq > \$x/scaling_setspeed; done'"
+alias lock_min="adb shell 'for x in /sys/devices/system/cpu/cpu?/cpufreq; do echo userspace > \$x/scaling_governor; cat \$x/scaling_min_freq > \$x/scaling_setspeed; done'"
+alias unlock="adb shell 'for x in /sys/devices/system/cpu/cpu?/cpufreq; do echo sched > \$x/scaling_governor; done'"
