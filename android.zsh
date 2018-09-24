@@ -181,3 +181,5 @@ alias lcf='adb logcat -c; adb logcat -v color | egrep --line-buffered -v "(qmi_c
 alias lock_max="adb shell 'for x in /sys/devices/system/cpu/cpu?/cpufreq; do echo userspace > \$x/scaling_governor; cat \$x/scaling_max_freq > \$x/scaling_setspeed; done'"
 alias lock_min="adb shell 'for x in /sys/devices/system/cpu/cpu?/cpufreq; do echo userspace > \$x/scaling_governor; cat \$x/scaling_min_freq > \$x/scaling_setspeed; done'"
 alias unlock="adb shell 'for x in /sys/devices/system/cpu/cpu?/cpufreq; do echo sched > \$x/scaling_governor; done'"
+
+alias adbrepo='cd /android/adb; source setup.sh'
