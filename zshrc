@@ -35,6 +35,7 @@ PATH="$PATH:$HOME/.bin"
 PATH="$PATH:$HOME/.local/bin"
 PATH="$PATH:$HOME/.ellipsis/bin"
 [ -d /opt/wine/bin ] && PATH="$PATH:/opt/wine/bin"
+[ -d $HOME/.gcloud/bin ] && PATH="$PATH:$HOME/.gcloud/bin"
 
 # Rust environment
 [ -d $HOME/.rustsrc/1.8.0/src ] && export RUST_SRC_PATH=$HOME/.rustsrc/1.8.0/src
@@ -52,3 +53,4 @@ zstyle ':completion:*' users `whoami` root
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.android.zsh ] && source ~/.android.zsh
 [ -f ~/.cargo/env ] && source ~/.cargo/env
+[ -d ~/.depot_tools ] && PATH="$PATH:$HOME/.depot_tools"
