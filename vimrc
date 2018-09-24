@@ -67,6 +67,7 @@ inoremap <F3> <ESC>:YcmCompleter FixIt<CR>:ccl<CR>i
 autocmd BufWritePost,BufNewFile,BufRead * call AutoformatBind()
 
 " Strip trailing whitespace on save
+command StripTrailingWhitespace %s/\s\+$//e
 autocmd BufWritePre * %s/\s\+$//e
 
 " Fugitive keybinds
