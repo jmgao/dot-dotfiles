@@ -119,7 +119,7 @@ def AppendIncludes(filename):
     for includedir in includedirs:
         flags.append('-isystem')
         flags.append(os.path.join(root, includedir))
-    log.write(`flags`)
+    log.write('flags')
 
 # Set this to the absolute path to the folder (NOT the file!) containing the
 # compile_commands.json file to use that instead of 'flags'. See here for
