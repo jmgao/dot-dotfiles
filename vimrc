@@ -49,10 +49,10 @@ let g:autoformat_autoindent = 0
 let g:autoformat_retab = 0
 function AutoformatBind()
   if &ft =~ 'c$\|cpp$'
-    noremap jcf :pyf ~/.bin/clang-format.py<CR>
-    noremap <F4> :pyf ~/.bin/clang-format.py<CR>
-    inoremap jcf <ESC>:pyf ~/.bin/clang-format.py<CR>i
-    inoremap <F4> <ESC>:pyf ~/.bin/clang-format.py<CR>i
+    noremap jcf :pyxf ~/.bin/clang-format.py<CR>
+    noremap <F4> :pyxf ~/.bin/clang-format.py<CR>
+    inoremap jcf <ESC>:pyxf ~/.bin/clang-format.py<CR>i
+    inoremap <F4> <ESC>:pyxf ~/.bin/clang-format.py<CR>i
   else
     noremap jcf :Autoformat<CR>
     noremap <F4> :Autoformat<CR>
