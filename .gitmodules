@@ -6,7 +6,7 @@
 	url = https://github.com/powerline/powerline
 [submodule "vim/bundle/AutoCWD.vim"]
 	path = vim/bundle/AutoCWD.vim
-	url = https://github.com/yssl/AutoCWD.vim.git
+	url = https://github.com/jmgao/AutoCWD.vim.git
 [submodule "vim/bundle/ctrlp.vim"]
 	path = vim/bundle/ctrlp.vim
 	url = https://github.com/ctrlpvim/ctrlp.vim.git
