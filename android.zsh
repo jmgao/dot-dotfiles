@@ -45,6 +45,7 @@ function {
   devices[sailfish]="HT67E0300016"
   devices[taimen]="704KPTM000281"
   devices[walleye]="HT75P1A00083"
+  devices[blueline]="822X0028S"
   devices[hikey960]="hikey960"
 
   devices[aosp_x86]=""
