@@ -32,6 +32,10 @@ set nomodeline
 highlight ColorColumn ctermbg=darkgrey guibg=#2c2d27
 set colorcolumn=101
 
+" Black on yellow highlight
+highlight Search ctermfg=0 ctermbg=11
+highlight SpellBad cterm=reverse ctermfg=1 ctermbg=16
+
 " Speed up vim-gitgutter updates
 set updatetime=1000
 
@@ -262,5 +266,3 @@ map <C-A> ^
 map! <C-A> <ESC>I
 map <C-E> $
 map! <C-E> <ESC>A
-
-colorscheme default
