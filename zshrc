@@ -38,7 +38,7 @@ PATH="$PATH:$HOME/.ellipsis/bin"
 [ -d $HOME/.gcloud/bin ] && PATH="$PATH:$HOME/.gcloud/bin"
 
 # Rust environment
-[ -d $HOME/.rustsrc/1.8.0/src ] && export RUST_SRC_PATH=$HOME/.rustsrc/1.8.0/src
+export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
 if [ -d $HOME/.cargo/bin ]; then
   PATH="$PATH:$HOME/.cargo/bin"
 fi

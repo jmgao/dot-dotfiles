@@ -53,6 +53,9 @@ function AutoformatBind()
     noremap <F4> :pyxf ~/.bin/clang-format.py<CR>
     inoremap jcf <ESC>:pyxf ~/.bin/clang-format.py<CR>i
     inoremap <F4> <ESC>:pyxf ~/.bin/clang-format.py<CR>i
+  elseif &ft =~ 'rust$'
+    noremap jcf :RustFmt<CR>
+    noremap <F4> :RustFmt<CR>
   else
     noremap jcf :Autoformat<CR>
     noremap <F4> :Autoformat<CR>
@@ -235,6 +238,8 @@ nnoremap gd :YcmCompleter GoTo<CR>
 
 " 2sp for lyfe
 let g:rust_recommended_style = 0
+
+let g:ycm_rust_src_path = $RUST_SRC_PATH
 
 set hidden
 
