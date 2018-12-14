@@ -38,9 +38,9 @@ PATH="$PATH:$HOME/.ellipsis/bin"
 [ -d $HOME/.gcloud/bin ] && PATH="$PATH:$HOME/.gcloud/bin"
 
 # Rust environment
-export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
 if [ -d $HOME/.cargo/bin ]; then
   PATH="$PATH:$HOME/.cargo/bin"
+  export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
 fi
 
 # Powerline
