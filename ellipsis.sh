@@ -10,6 +10,11 @@ pkg.install() {
     # Make sure the vim backup directory exists.
     mkdir $PKG_PATH/vim/backup
 
+    # Install rust, and various rust tools.
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain nightly --no-modify-path
+    $HOME/.cargo/bin/rustup component add rust-src
+    $HOME/.cargo/bin/cargo install cargo-watch cargo-size
+
     fs.link_files $PKG_PATH
 }
 
