@@ -9,6 +9,8 @@ pkg.install() {
 
     sudo apt-get install build-essential cmake ninja-build                                         \
                          i3-wm compton                                                             \
+                         libfreetype6-dev libfontconfig1-dev pkg-config libxcb-render0-dev         \
+                         libxcb-shape0-dev libxcb-xfixes0-dev                                      \
 
     # Make sure the vim backup directory exists.
     mkdir $PKG_PATH/vim/backup
