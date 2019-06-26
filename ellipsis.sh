@@ -13,9 +13,13 @@ pkg.install() {
                          libxcb-shape0-dev libxcb-xfixes0-dev                                      \
                          python2.7-dev                                                             \
                          libssl-dev                                                                \
+                         neovim python-pip python3-pip                                             \
 
     # Make sure the vim backup directory exists.
     mkdir $PKG_PATH/vim/backup
+
+    # Add a symlink for neovim.
+    ln -s ../.vim $HOME/.config/nvim
 
     # Install rust, and various rust tools.
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain nightly --no-modify-path
