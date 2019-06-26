@@ -11,6 +11,7 @@ pkg.install() {
                          i3-wm compton                                                             \
                          libfreetype6-dev libfontconfig1-dev pkg-config libxcb-render0-dev         \
                          libxcb-shape0-dev libxcb-xfixes0-dev                                      \
+                         python2.7-dev                                                             \
 
     # Make sure the vim backup directory exists.
     mkdir $PKG_PATH/vim/backup
@@ -19,6 +20,9 @@ pkg.install() {
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain nightly --no-modify-path
     $HOME/.cargo/bin/rustup component add rust-src
     $HOME/.cargo/bin/cargo install cargo-watch cargo-size
+
+    # Build YouCompleteMe.
+    $PKG_PATH/.vim/bundle/YouCompleteMe/install.py --ninja --clang-completer --rust-completer
 
     fs.link_files $PKG_PATH
 }
