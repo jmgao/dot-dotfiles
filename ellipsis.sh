@@ -7,7 +7,9 @@ pkg.install() {
     git submodule init
     git submodule update --init --recursive
 
-    sudo apt-get install build-essential cmake ninja-build
+    sudo apt-get install build-essential cmake ninja-build                                         \
+                         i3-wm compton                                                             \
+                         libfreetype6-dev libfontconfig1-dev pkg-config                            \
 
     # Make sure the vim backup directory exists.
     mkdir $PKG_PATH/vim/backup
