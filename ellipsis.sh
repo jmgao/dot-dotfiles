@@ -12,6 +12,7 @@ pkg.install() {
                          libfreetype6-dev libfontconfig1-dev pkg-config libxcb-render0-dev         \
                          libxcb-shape0-dev libxcb-xfixes0-dev                                      \
                          python2.7-dev                                                             \
+                         libssl-dev                                                                \
 
     # Make sure the vim backup directory exists.
     mkdir $PKG_PATH/vim/backup
