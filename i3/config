@@ -120,7 +120,7 @@ exec --no-startup-id /usr/lib/x86_64-linux-gnu/cinnamon-settings-daemon/csd-soun
 exec --no-startup-id /usr/lib/x86_64-linux-gnu/cinnamon-settings-daemon/csd-xsettings &
 exec --no-startup-id /usr/lib/x86_64-linux-gnu/cinnamon-settings-daemon/csd-xrandr &
 
-exec --no-startup-id nm-applet
+exec --no-startup-id pidof nm-applet || nm-applet
 
 exec --no-startup-id redshift -l 37.4284:-122.0724 &
 
