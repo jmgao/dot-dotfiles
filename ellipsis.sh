@@ -30,6 +30,9 @@ pkg.install() {
     $PKG_PATH/.vim/bundle/YouCompleteMe/install.py --ninja --clang-completer --rust-completer
 
     fs.link_files $PKG_PATH
+
+    # Install fzf.
+    $HOME/.fzf/install --no-fish --key-bindings --completion --no-update-rc
 }
 
 # pkg.push() {
