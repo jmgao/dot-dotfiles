@@ -243,8 +243,6 @@ nnoremap gd :YcmCompleter GoTo<CR>
 " 2sp for lyfe
 let g:rust_recommended_style = 0
 
-let g:ycm_rust_src_path = $RUST_SRC_PATH
-
 set hidden
 
 let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
