@@ -1,4 +1,3 @@
 #!/bin/sh
 
-[ -f /usr/bin/google-chrome ] && exec /usr/bin/google-chrome ${@}
-[ -f /opt/google/chrome/chrome ] && exec /opt/google/chrome/chrome ${@}
+google-chrome-stable ${@}
