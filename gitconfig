@@ -1,3 +1,5 @@
 [user]
 	email = josh@jmgao.dev
 	name = Josh Gao
+[merge]
+	conflictstyle = diff3
