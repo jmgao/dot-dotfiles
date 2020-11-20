@@ -1,3 +1,5 @@
+#!/usr/bin/env python2
+
 # This file is a minimal clang-format vim-integration. To install:
 # - Change 'binary' if clang-format is not on the path (see below).
 # - Add to your .vimrc:
