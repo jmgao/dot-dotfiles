@@ -19,7 +19,7 @@ pkg.install() {
     mkdir $PKG_PATH/vim/backup
 
     # Add a symlink for neovim.
-    ln -s ../.vim $HOME/.config/nvim
+    ln -s ../.nvim $HOME/.config/nvim
 
     # Install rust, and various rust tools.
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain nightly --no-modify-path
