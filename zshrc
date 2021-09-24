@@ -22,18 +22,20 @@ unsetopt autopushd
 
 export LANG=en_US.UTF-8
 
-alias pbcopy='xclip -selection clipboard'
+alias pbcopy='xclip -selection clipboard -i'
 alias pbpaste='xclip -selection clipboard -o'
 
 alias mosh='mosh --ssh="ssh -o ProxyUseFdpass=no -o UseProxyIf=true -o GSSAPITrustDns=no"'
 
-if [[ "$TERM" == "xterm" ]]; then
-  TERM=xterm-256color
-fi
+TERM=xterm-256color
+
+alias vim=nvim
+EDITOR=nvim
 
 PATH="$PATH:$HOME/.bin"
 PATH="$PATH:$HOME/.local/bin"
 PATH="$PATH:$HOME/.ellipsis/bin"
+[ -d $HOME/.pt ] && PATH="$PATH:$HOME/.pt"
 [ -d /opt/wine/bin ] && PATH="$PATH:/opt/wine/bin"
 [ -d $HOME/.gcloud/bin ] && PATH="$PATH:$HOME/.gcloud/bin"
 
