@@ -116,16 +116,14 @@ mouse_warping none
 bindsym Mod4+l exec "i3lock -c 333333"
 exec --no-startup-id xautolock -time 5 -locker "i3lock -c 333333 -g 5" &
 
-exec --no-startup-id /usr/lib/x86_64-linux-gnu/cinnamon-settings-daemon/csd-sound &
-exec --no-startup-id /usr/lib/x86_64-linux-gnu/cinnamon-settings-daemon/csd-xsettings &
-exec --no-startup-id /usr/lib/x86_64-linux-gnu/cinnamon-settings-daemon/csd-xrandr &
-
 exec --no-startup-id pidof nm-applet || nm-applet
 
 exec --no-startup-id redshift -l 37.4284:-122.0724 &
 
 exec --no-startup-id setxkbmap -option caps:none
 exec --no-startup-id xmodmap -e "keycode 66 = Escape NoSymbol Escape"
+
+exec --no-startup-id picom --experimental-backends --backend xrender --vsync &
 
 # Workspace monitor assignment
 workspace 1 output DP-4
