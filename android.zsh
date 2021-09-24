@@ -174,9 +174,6 @@ if [ -d $HOME/.android/sdk ]; then
   PATH="$PATH:$ANDROID_HOME/tools"
 fi
 
-export GOMA_DIR=$HOME/.goma
-export USE_GOMA=true
-
 alias lcf='adb logcat -c; adb logcat -v color | egrep --line-buffered -v "(qmi_client|fpce_|slim_daemon|sensorservice|NuPlayer|AtCmdFwd|MediaPlayer)"'
 
 alias lock_max="adb shell 'for x in /sys/devices/system/cpu/cpu?/cpufreq; do echo userspace > \$x/scaling_governor; cat \$x/scaling_max_freq > \$x/scaling_setspeed; done'"
