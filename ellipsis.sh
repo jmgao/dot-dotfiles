@@ -22,7 +22,7 @@ pkg.install() {
     ln -s ../.nvim $HOME/.config/nvim
 
     # Install rust, and various rust tools.
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain nightly --no-modify-path
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path
     $HOME/.cargo/bin/rustup component add rust-src rls rustfmt
     $HOME/.cargo/bin/cargo install cargo-watch cargo-size
 
