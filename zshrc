@@ -30,7 +30,7 @@ alias mosh='mosh --ssh="ssh -o ProxyUseFdpass=no -o UseProxyIf=true -o GSSAPITru
 TERM=xterm-256color
 
 alias vim=nvim
-EDITOR=nvim
+export EDITOR=nvim
 
 PATH="$PATH:$HOME/.bin"
 PATH="$PATH:$HOME/.local/bin"
