@@ -8,15 +8,12 @@ pkg.install() {
     git submodule update --init --recursive
 
     sudo apt-get install build-essential cmake ninja-build                                         \
-                         i3-wm compton                                                             \
+                         i3-wm compton sway                                                        \
                          libfreetype6-dev libfontconfig1-dev pkg-config libxcb-render0-dev         \
                          libxcb-shape0-dev libxcb-xfixes0-dev                                      \
                          python2.7-dev                                                             \
                          libssl-dev                                                                \
-                         neovim python-pip python3-pip                                             \
-
-    # Make sure the vim backup directory exists.
-    mkdir $PKG_PATH/vim/backup
+                         neovim python3-pip                                                        \
 
     # Add a symlink for neovim.
     ln -s ../.nvim $HOME/.config/nvim
